@@ -1,4 +1,6 @@
 import { Link } from "@inertiajs/react";
+import { Trash2 } from "lucide-react";
+import { useState } from "react";
 
 interface Menu {
   id: number;
@@ -9,18 +11,35 @@ interface Menu {
   sort_number: number;
   children: Menu[];
 }
+//— Sort: {menu.sort_number}
 
 export default function Index({ menus }: { menus: Menu[] }) {
+  const [down, setDown] = useState(false);
   const renderMenu = (menu: Menu) => (
     <li key={menu.id} className="border p-2 rounded mb-2">
       <div className="flex justify-between items-center">
         <span>
           {menu.icon && <i className={`mr-2 ${menu.icon}`}></i>}
-          {menu.name} ({menu.status}) — Sort: {menu.sort_number}
+          {menu.name} ({menu.status})
         </span>
+
         <Link href={`/create?parent=${menu.id}`} className="text-blue-500">
           Add Submenu
         </Link>
+
+        <Link href={`/menus/${menu.id}`}
+          method="delete"
+          as="button"
+          className="text-red-500 cursor-pointer 
+          hover:bg-gray-200 "
+          onClick={(e) => {
+            if (!confirm("Delete this post")) {
+              e.preventDefault();
+            }
+          }}>
+            <Trash2 />
+        </Link>
+        
       </div>
       {menu.children && menu.children.length > 0 && (
         <ul className="ml-5 mt-2">

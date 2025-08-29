@@ -15,7 +15,7 @@ class MenuController extends Controller
             ->orderBy('sort_number')
             ->get();
 
-        return Inertia::render('menus/Index', [
+        return Inertia::render('menus/Index', [ //menus/Index
             'menus' => $menus
         ]);
     }
@@ -48,8 +48,8 @@ class MenuController extends Controller
     }
 
   
-    public function delete(Menu $menu){
+    public function destroy(Menu $menu){
         $menu->delete();
-        return redirect()->route('all-menu')->with('success', 'Menu deleted successfully!');
+        return redirect()->route('all-menu');
     }
 }

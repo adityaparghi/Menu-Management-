@@ -18,7 +18,7 @@ Route::middleware('auth')->controller(MenuController::class)->group(function(){
     Route::get('/all','index')->name('all-menu'); 
     Route::get('/create','create')->name('create-menu'); 
     Route::post('/','save')->name('save-menu');
-    Route::delete('/','delete')->name('delete-menu');
+    Route::delete('/menus/{menu}','destroy')->name('delete-menu');
 });
 
 // Route::get('/abc',function(){
