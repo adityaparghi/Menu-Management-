@@ -20,6 +20,7 @@ interface AppLayoutProps {
 export default function AppLayout({ children, breadcrumbs, menus }: AppLayoutProps) {
   return (
 
+    
     <SidebarProvider>
       <AppSidebar menus={menus} />
       <SidebarInset>

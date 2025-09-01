@@ -14,7 +14,7 @@ class MenuController extends Controller
             ->whereNull('parent_id')
             ->orderBy('sort_number')
             ->get();
-
+        
         return Inertia::render('menus/Index', [ //menus/Index
             'menus' => $menus
         ]);
@@ -52,4 +52,6 @@ class MenuController extends Controller
         $menu->delete();
         return redirect()->route('all-menu');
     }
+
+    
 }

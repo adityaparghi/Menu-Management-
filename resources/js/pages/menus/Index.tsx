@@ -1,5 +1,5 @@
 import { Link } from "@inertiajs/react";
-import { Trash2 } from "lucide-react";
+import { Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 
 interface Menu {
@@ -22,9 +22,9 @@ export default function Index({ menus }: { menus: Menu[] }) {
           {menu.icon && <i className={`mr-2 ${menu.icon}`}></i>}
           {menu.name} ({menu.status})
         </span>
-
+ 
         <Link href={`/create?parent=${menu.id}`} className="text-blue-500">
-          Add Submenu
+         <Plus />
         </Link>
 
         <Link href={`/menus/${menu.id}`}

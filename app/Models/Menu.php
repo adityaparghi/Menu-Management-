@@ -22,4 +22,12 @@ class Menu extends Model
     public function children(){
         return $this->hasMany(Menu::class, 'parent_id')->orderBy('sort_number');
     }
+
+    public function childrenRecursive() {
+        return $this->children()->with('childrenRecursive');
+    }
+
+    public function scopeActive($q) {
+        return $q->where('status', 'Active');
+    }
 }

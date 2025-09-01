@@ -8,7 +8,9 @@ import { usePage } from '@inertiajs/react';
 import { ChevronsUpDown } from 'lucide-react';
 
 export function NavUser() {
-    const { auth } = usePage<SharedData>().props;
+    const { auth } = usePage().props as any;
+
+    if (!auth?.user) return null;
     const { state } = useSidebar();
     const isMobile = useIsMobile();
 
