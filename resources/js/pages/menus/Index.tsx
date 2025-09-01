@@ -33,7 +33,7 @@ export default function Index({ menus }: { menus: Menu[] }) {
           className="text-red-500 cursor-pointer 
           hover:bg-gray-200 "
           onClick={(e) => {
-            if (!confirm("Delete this post")) {
+            if (!confirm("Delete this menu")) {
               e.preventDefault();
             }
           }}>

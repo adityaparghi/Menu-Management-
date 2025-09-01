@@ -5,7 +5,7 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, Sid
 import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
+import { BookOpen, Folder, Grip, KeyRound, LayoutGrid } from 'lucide-react';
 import AppLogo from './app-logo';
 
 interface Menu {
@@ -62,9 +62,9 @@ const footerNavItems: NavItem[] = [
     icon: Folder,
   },
   {
-    title: 'Documentation',
-    href: 'https://laravel.com/docs/starter-kits#react',
-    icon: BookOpen,
+    title: 'All Menu',
+    href: 'http://localhost:8000/all',
+    icon: Grip,
   },
 ];
 
