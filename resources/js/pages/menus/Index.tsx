@@ -24,8 +24,12 @@ export default function Index({ menus }: { menus: Menu[] }) {
         </span>
  
         <Link href={`/create?parent=${menu.id}`} className="text-blue-500">
-         <Plus />
+        Add Menu
         </Link>
+
+       <Link href={`/menus/${menu.id}/edit`} className="text-blue-500" >
+         Update
+       </Link>
 
         <Link href={`/menus/${menu.id}`}
           method="delete"

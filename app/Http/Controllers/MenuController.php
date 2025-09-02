@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Menu;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use PhpParser\Node\Stmt\Return_;
 
 class MenuController extends Controller
 {
@@ -47,6 +48,29 @@ class MenuController extends Controller
         return redirect()->route('all-menu')->with('success', 'Menu created successfully!');
     }
 
+   public function edit(Menu $menu)
+{
+    $parents = Menu::whereNull('parent_id')
+        ->where('id', '!=', $menu->id)
+        ->get();
+
+    return Inertia::render('menus/Edit', [
+        'menu' => $menu,
+        'parents' => $parents,
+    ]);
+}
+
+
+    public function update(Request $request, Menu $menu){
+        $request->validate([
+            'name'=> 'required|string|max:255',
+            'url' => 'nullable|string|max:255',
+            'icon'=> 'nullable|string|max:255',
+            'status'=> 'required|in:Active,Inactive',
+        ]);
+        $menu->update($request->all());
+        return redirect()->route('all-menu');
+    }
   
     public function destroy(Menu $menu){
         $menu->delete();
