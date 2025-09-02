@@ -1,4 +1,5 @@
 import { NavFooter } from '@/components/nav-footer';
+import * as LucideIcons from "lucide-react";
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
@@ -41,14 +42,29 @@ function buildMenuTree(menus: Menu[]): Menu[] {
 
 // 2. Convert Menu[] into NavItem[]
 function mapMenusToNavItems(menus: Menu[]): NavItem[] {
-  return menus.map((menu) => ({
-    title: menu.name,
-    href: menu.url || "#",
-    icon: Folder,
-    items: menu.children && menu.children.length > 0 
-      ? mapMenusToNavItems(menu.children) 
-      : [],
-  }));
+  return menus.map((menu) => {
+    // Get the correct Lucide icon by name stored in DB (fallback = Folder)
+    const Icon = (menu.icon && LucideIcons[menu.icon]) || LucideIcons.Folder;
+
+    return {
+      title: menu.name,
+      href: menu.url || "#",   // Redirect to backend URL
+      icon: Icon,              // dynamic icon
+      items: menu.children && menu.children.length > 0 
+        ? mapMenusToNavItems(menu.children) 
+        : [],
+    };
+  });
+
+  
+  // return menus.map((menu) => ({
+  //   title: menu.name,
+  //   href: menu.url || "#",
+  //   icon: Folder,
+  //   items: menu.children && menu.children.length > 0 
+  //     ? mapMenusToNavItems(menu.children) 
+  //     : [],
+  // }));
 }
 
 interface AppSidebarProps {
