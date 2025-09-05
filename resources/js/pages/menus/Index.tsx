@@ -13,7 +13,9 @@ interface Menu {
 }
 //— Sort: {menu.sort_number}
 
+
 export default function Index({ menus }: { menus: Menu[] }) {
+
   const [down, setDown] = useState(false);
   const renderMenu = (menu: Menu) => (
     <li key={menu.id} className="border p-2 rounded mb-2">
@@ -22,14 +24,14 @@ export default function Index({ menus }: { menus: Menu[] }) {
           {menu.icon && <i className={`mr-2 ${menu.icon}`}></i>}
           {menu.name} ({menu.status})
         </span>
- 
-        <Link href={`/create?parent=${menu.id}`} className="text-blue-500">
-        Add Menu
+
+        <Link href={`/create?parent=${menu.id}`} className="text-blue-500 hover:underline">
+          Add Menu
         </Link>
 
-       <Link href={`/menus/${menu.id}/edit`} className="text-blue-500" >
-         Update
-       </Link>
+        <Link href={`/menus/${menu.id}/edit`} className="text-blue-500 hover:underline " >
+          Update
+        </Link>
 
         <Link href={`/menus/${menu.id}`}
           method="delete"
@@ -41,9 +43,9 @@ export default function Index({ menus }: { menus: Menu[] }) {
               e.preventDefault();
             }
           }}>
-            <Trash2 />
+          <Trash2 />
         </Link>
-        
+
       </div>
       {menu.children && menu.children.length > 0 && (
         <ul className="ml-5 mt-2">
@@ -57,6 +59,9 @@ export default function Index({ menus }: { menus: Menu[] }) {
     <div className="p-5">
       <div className="flex gap-220" >
         <h1 className="text-xl font-bold mb-4">Menus</h1>
+        {/* <Link href={'/dashboard'} className="text-blue-900 px-3 py-2 bg-purple-200 rounded" >
+          Dashboard
+        </Link> */}
         <Link href="/create" className="bg-blue-500 text-white px-3 py-2 hover:bg-blue-600 rounded">
           Create Menu
         </Link>

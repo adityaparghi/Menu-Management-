@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "@inertiajs/react";
+import { iconList } from "@/utils/iconList";
 
 interface Parent {
   id: number;
@@ -7,13 +8,14 @@ interface Parent {
 }
 
 export default function Edit({ parents, menu }: { parents: Parent[], menu: any }) {
+
+   const [show, setShow] = useState(false);
   const { data, setData, put, processing, errors} = useForm({
     name: menu.name || "",
     url: menu.url || "",
     icon: menu.icon || "",
     parent_id: menu.parent_id || "",
     status: menu.status || "Active",
-    sort_number: menu.sort_number || 0,
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -44,17 +46,63 @@ export default function Edit({ parents, menu }: { parents: Parent[], menu: any }
           className="border p-2 w-full cursor-pointer"
         />
 
-        <input
+        {/* <input
           type="text"
           placeholder="Icon"
           value={data.icon}
           onChange={(e) => setData("icon", e.target.value)}
           className="border p-2 w-full cursor-pointer"
-        />
+        /> */}
+               <div className="relative">
+                  <div
+                    className="border p-2 w-full flex items-center cursor-pointer rounded"
+                    onClick={() => setShow((prev) => !prev)}
+                  >
+                    {data.icon && (
+                      <span className="mr-2">
+                        {
+                          (() => {
+                            const Icon =
+                              iconList.find((ic) => ic.name === data.icon)?.icon;
+                            return Icon ? <Icon className="w-5 h-5" /> : null;
+                          })()
+                        }
+                      </span>
+                    )}
+                    <input
+                      type="text"
+                      placeholder="Search Icons"
+                      value={data.icon}
+                      readOnly
+                      className="flex-1 cursor-pointer outline-none"
+                    />
+                  </div>
+        
+                  {show && (
+                    <div className="absolute bg-white border mt-1 w-full max-h-60 overflow-y-auto grid grid-cols-10 gap-2 p-2 rounded shadow-lg z-50">
+                      {iconList.map(({ name, icon: Icon }) => (
+                        <button
+                          type="button"
+                          key={name}
+                          onClick={() => {
+                            setData("icon", name); // save to form
+                            setShow(false); // hide after i select
+                          }}
+                          className={`p-2 border rounded flex flex-col items-center cursor-pointer ${
+                            data.icon === name ? "bg-blue-100 border-blue-500" : ""
+                          }`}
+                        >
+                          <Icon className="w-4 h-4" />
+                          <span className="text-xs mt-1">{name}</span>
+                        </button>
+                     ))}
+                    </div>
+                  )}
+                </div> 
 
         <select
           value={data.parent_id}
-          onChange={(e) => setData("parent_id", e.target.value)}
+          onChange={(e) => setData("parent_id", e.target.value ? parseInt(e.target.value) : "") }
           className="border p-2 w-full cursor-pointer"
         >
           <option value="">No Parent (Main Menu)</option>

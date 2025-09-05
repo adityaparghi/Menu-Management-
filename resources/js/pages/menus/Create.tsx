@@ -81,8 +81,8 @@ export default function Create({ parents }: { parents: Parent[] }) {
                   type="button"
                   key={name}
                   onClick={() => {
-                    setData("icon", name); // ✅ save to form
-                    setShow(false); // hide after selecting
+                    setData("icon", name); // save to form
+                    setShow(false); // hide after i select
                   }}
                   className={`p-2 border rounded flex flex-col items-center cursor-pointer ${
                     data.icon === name ? "bg-blue-100 border-blue-500" : ""
@@ -91,10 +91,10 @@ export default function Create({ parents }: { parents: Parent[] }) {
                   <Icon className="w-4 h-4" />
                   <span className="text-xs mt-1">{name}</span>
                 </button>
-              ))}
+             ))}
             </div>
           )}
-        </div>
+        </div> 
 
         {/* Parent */}
         <select
