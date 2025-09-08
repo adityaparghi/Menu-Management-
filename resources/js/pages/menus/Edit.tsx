@@ -9,8 +9,8 @@ interface Parent {
 
 export default function Edit({ parents, menu }: { parents: Parent[], menu: any }) {
 
-   const [show, setShow] = useState(false);
-  const { data, setData, put, processing, errors} = useForm({
+  const [show, setShow] = useState(false);
+  const { data, setData, put, processing, errors } = useForm({
     name: menu.name || "",
     url: menu.url || "",
     icon: menu.icon || "",
@@ -42,7 +42,7 @@ export default function Edit({ parents, menu }: { parents: Parent[], menu: any }
           placeholder="URL"
           value={data.url}
           onChange={(e) => setData("url", e.target.value)}
-          
+
           className="border p-2 w-full cursor-pointer"
         />
 
@@ -53,54 +53,53 @@ export default function Edit({ parents, menu }: { parents: Parent[], menu: any }
           onChange={(e) => setData("icon", e.target.value)}
           className="border p-2 w-full cursor-pointer"
         /> */}
-               <div className="relative">
-                  <div
-                    className="border p-2 w-full flex items-center cursor-pointer rounded"
-                    onClick={() => setShow((prev) => !prev)}
-                  >
-                    {data.icon && (
-                      <span className="mr-2">
-                        {
-                          (() => {
-                            const Icon =
-                              iconList.find((ic) => ic.name === data.icon)?.icon;
-                            return Icon ? <Icon className="w-5 h-5" /> : null;
-                          })()
-                        }
-                      </span>
-                    )}
-                    <input
-                      type="text"
-                      placeholder="Search Icons"
-                      value={data.icon}
-                      readOnly
-                      className="flex-1 cursor-pointer outline-none"
-                    />
-                  </div>
-        
-                  {show && (
-                    <div className="absolute bg-white border mt-1 w-full max-h-60 overflow-y-auto grid grid-cols-10 gap-2 p-2 rounded shadow-lg z-50">
-                      {iconList.map(({ name, icon: Icon }) => (
-                        <button
-                          type="button"
-                          key={name}
-                          onClick={() => {
-                            setData("icon", name); // save to form
-                            setShow(false); // hide after i select
-                          }}
-                          className={`p-2 border rounded flex flex-col items-center cursor-pointer ${
-                            data.icon === name ? "bg-blue-100 border-blue-500" : ""
-                          }`}
-                        >
-                          <Icon className="w-4 h-4" />
-                          <span className="text-xs mt-1">{name}</span>
-                        </button>
-                     ))}
-                    </div>
-                  )}
-                </div> 
+        <div className="relative">
+          <div
+            className="border p-2 w-full flex items-center cursor-pointer rounded"
+            onClick={() => setShow((prev) => !prev)}
+          >
+            {data.icon && (
+              <span className="mr-2">
+                {
+                  (() => {
+                    const Icon =
+                      iconList.find((ic) => ic.name === data.icon)?.icon;
+                    return Icon ? <Icon className="w-5 h-5" /> : null;
+                  })()
+                }
+              </span>
+            )}
+            <input
+              type="text"
+              placeholder="Search Icons"
+              value={data.icon}
+              readOnly
+              className="flex-1 cursor-pointer outline-none"
+            />
+          </div>
 
-        <select
+          {show && (
+            <div className="absolute bg-white border mt-1 w-full max-h-60 overflow-y-auto grid grid-cols-10 gap-2 p-2 rounded shadow-lg z-50">
+              {iconList.map(({ name, icon: Icon }) => (
+                <button
+                  type="button"
+                  key={name}
+                  onClick={() => {
+                    setData("icon", name); // save to form
+                    setShow(false); // hide after i select
+                  }}
+                  className={`p-2 border rounded flex flex-col items-center cursor-pointer ${data.icon === name ? "bg-blue-100 border-blue-500" : ""
+                    }`}
+                >
+                  <Icon className="w-4 h-4" />
+                  <span className="text-xs mt-1">{name}</span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* <select
           value={data.parent_id}
           onChange={(e) => setData("parent_id", e.target.value ? parseInt(e.target.value) : "") }
           className="border p-2 w-full cursor-pointer"
@@ -111,7 +110,21 @@ export default function Edit({ parents, menu }: { parents: Parent[], menu: any }
               {p.name}
             </option>
           ))}
+        </select> */}
+
+        <select
+          value={data.parent_id}
+          onChange={(e) => setData("parent_id", e.target.value ? parseInt(e.target.value) : "")}
+          className="border p-2 w-full cursor-pointer"
+        >
+          <option value="">No Parent (Main Menu)</option>
+          {parents.map((p) => (
+            <option key={p.id} value={p.id}>
+              {p.name}
+            </option>
+          ))}
         </select>
+
 
         <select
           value={data.status}
@@ -121,6 +134,15 @@ export default function Edit({ parents, menu }: { parents: Parent[], menu: any }
           <option value="Active">Active</option>
           <option value="Inactive">Inactive</option>
         </select>
+
+        <input
+          type="number"
+          //  placeholder="Sort Order"
+          placeholder={``}
+          value={data.sort_number}
+          onChange={(e: { target: { value: string; }; }) => setData("sort_number", parseInt(e.target.value))}
+          className="border p-2 w-full"
+        />
 
         <button
           type="submit"
@@ -211,13 +233,13 @@ export default function Edit({ parents, menu }: { parents: Parent[], menu: any }
 //             <option value="Inactive">Inactive</option>
 //           </select>
 
-//           {/* <input
-//             type="number"
-//             placeholder="Sort Order"
-//             value={data.sort_number}
-//             onChange={(e: { target: { value: string; }; }) => setData("sort_number", parseInt(e.target.value))}
-//             className="border p-2 w-full"
-//           /> */}
+// {/* <input
+//   type="number"
+//   placeholder="Sort Order"
+//   value={data.sort_number}
+//   onChange={(e: { target: { value: string; }; }) => setData("sort_number", parseInt(e.target.value))}
+//   className="border p-2 w-full"
+// /> */}
 
 //           <button
 //             type="submit"

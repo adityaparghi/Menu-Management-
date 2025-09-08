@@ -21,14 +21,28 @@ class MenuController extends Controller
         ]);
     }
 
-    public function reorder(Request $request)
+    // public function reorder(Request $request)
+    // {
+    //     $ids = $request->input('ids');           // array of menu IDs in new order
+    //     foreach ($ids as $index => $id) {
+    //         Menu::where('id', $id)->update(['sort_number' => $index]);
+    //     }
+    //     return response()->json(['status' => 'success']);
+    // }
+
+    
+
+    public function move(Request $request, Menu $menu)
     {
-        $ids = $request->input('ids');           // array of menu IDs in new order
-        foreach ($ids as $index => $id) {
-            Menu::where('id', $id)->update(['sort_number' => $index]);
-        }
+        $request->validate([
+            'parent_id' => 'nullable|exists:menus,id',
+        ]);
+
+        $menu->update(['parent_id' => $request->parent_id]);
+
         return response()->json(['status' => 'success']);
     }
+
 
 
     public function create()
@@ -79,7 +93,7 @@ class MenuController extends Controller
             'status' => 'required|in:Active,Inactive',
         ]);
         $menu->update($request->all());
-        return redirect('/dashboard');
+        return redirect('/all');
     }
 
     public function destroy(Menu $menu)

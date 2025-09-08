@@ -17,13 +17,14 @@ interface Menu {
 export default function Index({ menus }: { menus: Menu[] }) {
 
   const [down, setDown] = useState(false);
-  const renderMenu = (menu: Menu) => (
+  const renderMenu = (menu: Menu) => ( 
     <li key={menu.id} className="border p-2 rounded mb-2">
       <div className="flex justify-between items-center">
         <span>
           {menu.icon && <i className={`mr-2 ${menu.icon}`}></i>}
-          {menu.name} ({menu.status})
+          {menu.name} - {menu.sort_number}
         </span>
+          <span className="text-blue-500" ></span>
 
         <Link href={`/create?parent=${menu.id}`} className="text-blue-500 hover:underline">
           Add Menu
