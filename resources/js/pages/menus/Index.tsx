@@ -15,7 +15,7 @@ interface Menu {
 
 
 export default function Index({ menus }: { menus: Menu[] }) {
-
+  console.log("Index menus: ",menus);
   const [down, setDown] = useState(false);
   const renderMenu = (menu: Menu) => ( 
     <li key={menu.id} className="border p-2 rounded mb-2">
@@ -67,8 +67,76 @@ export default function Index({ menus }: { menus: Menu[] }) {
           Create Menu
         </Link>
       </div>
-
-      <ul className="mt-4">{menus.map((menu) => renderMenu(menu))}</ul>
+       
+      <ul className="mt-4">{menus.map((menu) => renderMenu(menu))}</ul> 
+     
     </div>
   );
 }
+
+// import { useState } from "react";
+// import { ChevronRight } from "lucide-react";
+// import { Link } from "@inertiajs/react";
+
+// interface MenuItem {
+//   id: number;
+//   name: string;
+//   url: string;
+//   icon?: string;
+//   children?: MenuItem[];
+// }
+
+// export default function Sidebar({ menus }: { menus: MenuItem[] }) {
+//   return (
+//     <div className="w-64 bg-white border-r">
+//       <ul className="p-2">
+//         {menus.map((menu) => (
+//           <SidebarItem key={menu.id} item={menu} />
+//         ))}
+//       </ul>
+//     </div>
+//   );
+// }
+
+// function SidebarItem({ item }: { item: MenuItem }) {
+//   const [open, setOpen] = useState(false);
+
+//   const hasChildren = item.children && item.children.length > 0;
+
+//   return (
+//     <li className="mb-1">
+//       <div
+//         className="flex items-center justify-between px-3 py-2 cursor-pointer hover:bg-gray-100 rounded"
+//         onClick={() => hasChildren && setOpen(!open)}
+//       >
+//         {/* Left side: text with link */}
+//         {item.url ? (
+//           <Link href={item.url} className="flex-1 text-sm font-medium">
+//             {item.name}
+//           </Link>
+//         ) : (
+//           <span className="flex-1 text-sm font-medium">{item.name}</span>
+//         )}
+
+//         {/* Right side: Chevron if has children */}
+//         {hasChildren && (
+//           <ChevronRight
+//             size={16}
+//             className={`transition-transform ${open ? "rotate-90" : ""}`}
+//           />
+//         )}
+//       </div>
+
+//       {/* Submenu */}
+//       {hasChildren && open && (
+//         <ul className="ml-4 mt-1 border-l border-gray-200 pl-2">
+//           {item.children?.map((child) => (
+//             <SidebarItem key={child.id} item={child} />
+//           ))}
+//         </ul>
+//       )}
+//     </li>
+//   );
+// }
+
+ 

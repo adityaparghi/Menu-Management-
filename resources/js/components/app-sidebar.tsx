@@ -55,6 +55,7 @@ function mapMenusToNavItems(menus: Menu[]): NavItem[] {
         : [],
     };
   });
+ 
 
   
   // return menus.map((menu) => ({
@@ -67,9 +68,11 @@ function mapMenusToNavItems(menus: Menu[]): NavItem[] {
   // }));
 }
 
+
 interface AppSidebarProps {
   menus: Menu[];
 }
+
 
 const footerNavItems: NavItem[] = [
   {
@@ -79,7 +82,7 @@ const footerNavItems: NavItem[] = [
   },
   {
     title: 'All Menu',
-    href: 'http://localhost:8000/all',
+    href: '/all',
     icon: Grip,
   },
 ];
@@ -87,20 +90,22 @@ const footerNavItems: NavItem[] = [
 export function AppSidebar({ menus }: AppSidebarProps) {
   const { props } = usePage();
   const backendMenus: Menu[] = props.menus || [];
+  console.log(backendMenus);
 
   // Convert flat → nested → NavItem[]
   const nestedMenus = buildMenuTree(backendMenus);
-  const navItems: NavItem[] = [
+
+  const navItems: NavItem[] = [  
     {
       title: 'Dashboard',
       href: dashboard(),
       icon: LayoutGrid,
     },
-    ...mapMenusToNavItems(nestedMenus),
+    ...mapMenusToNavItems(nestedMenus), //nestedMenus
   ];
 
   console.log("Nested Menus:", nestedMenus);
-
+  console.log("NavItems: ",navItems);
   return (
     <Sidebar collapsible="icon" variant="inset">
       <SidebarHeader>
@@ -118,7 +123,7 @@ export function AppSidebar({ menus }: AppSidebarProps) {
       <SidebarContent>
         <NavMain items={navItems} /> 
       </SidebarContent>
-
+      
       <SidebarFooter>
         <NavFooter items={footerNavItems} className="mt-auto" />
         <NavUser />

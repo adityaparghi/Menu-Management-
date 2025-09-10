@@ -11,7 +11,7 @@ class MenuController extends Controller
 {
     public function index()
     {
-        $menus = Menu::with('children')
+        $menus = Menu::with('children') //childrenRecursive
             ->whereNull('parent_id')
             ->orderBy('sort_number')
             ->get();
@@ -30,7 +30,32 @@ class MenuController extends Controller
     //     return response()->json(['status' => 'success']);
     // }
 
-    
+    // public function reorder(Request $request)
+    // {
+    //     $items = $request->input('items');
+    //     // items = [ {id: 1, parent_id: null, sort_number: 0}, {...} ]
+
+    //     foreach ($items as $item) {
+    //         Menu::where('id', $item['id'])->update([
+    //             'parent_id' => $item['parent_id'],
+    //             'sort_number' => $item['sort_number'],
+    //         ]);
+    //     }
+
+    //     return response()->json(['status' => 'success']);
+    // }
+
+    public function reorder(Request $request)
+    {
+        $order = $request->input('order'); // array of IDs in new order
+
+        foreach ($order as $index => $id) {
+            Menu::where('id', $id)->update(['sort_number' => $index + 1]);
+        }
+
+        return response()->json(['success' => true]);
+    }
+
 
     public function move(Request $request, Menu $menu)
     {
@@ -47,7 +72,8 @@ class MenuController extends Controller
 
     public function create()
     {
-        $parents = Menu::whereNull('parent_id')->get();
+        // $parents = Menu::whereNull('parent_id')->get();
+        $parents = Menu::all();
 
         return Inertia::render('menus/Create', [
             'parents' => $parents
@@ -71,9 +97,25 @@ class MenuController extends Controller
         return redirect('/dashboard')->with('success', 'Menu created successfully!');
     }
 
+    // public function edit(Menu $menu)
+    // {
+    //     $parents = Menu::where('parent_id')
+    //         ->where('id', '!=', $menu->id)
+    //         ->get();
+
+    //     return Inertia::render('menus/Edit', [
+    //         'menu' => $menu,
+    //         'parents' => $parents,
+    //     ]);
+    // }
+
     public function edit(Menu $menu)
     {
-        $parents = Menu::whereNull('parent_id')
+        // Get all descendant IDs of this menu
+        $descendantIds = $this->getDescendantIds($menu);
+
+        // Exclude current menu and its descendants
+        $parents = Menu::whereNotIn('id', $descendantIds)
             ->where('id', '!=', $menu->id)
             ->get();
 
@@ -81,6 +123,21 @@ class MenuController extends Controller
             'menu' => $menu,
             'parents' => $parents,
         ]);
+    }
+
+    /**
+     * Recursively get all descendant IDs of a menu.
+     */
+    private function getDescendantIds($menu)
+    {
+        $ids = [];
+
+        foreach ($menu->children as $child) {
+            $ids[] = $child->id;
+            $ids = array_merge($ids, $this->getDescendantIds($child));
+        }
+
+        return $ids;
     }
 
 

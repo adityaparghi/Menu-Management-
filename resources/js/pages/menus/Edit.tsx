@@ -17,7 +17,7 @@ export default function Edit({ parents, menu }: { parents: Parent[], menu: any }
     parent_id: menu.parent_id || "",
     status: menu.status || "Active",
   });
-
+  console.log(menu);
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     put(`/menus/${menu.id}`, { preserveScroll: true });
@@ -27,7 +27,7 @@ export default function Edit({ parents, menu }: { parents: Parent[], menu: any }
     <div className="p-5">
       <h1 className="text-xl font-bold mb-4">Update Menu</h1>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-3">
         <input
           type="text"
           placeholder="Menu Name"
@@ -111,7 +111,9 @@ export default function Edit({ parents, menu }: { parents: Parent[], menu: any }
             </option>
           ))}
         </select> */}
+        
 
+        {/*Select all the menus and submenus excluding it's submenus */}
         <select
           value={data.parent_id}
           onChange={(e) => setData("parent_id", e.target.value ? parseInt(e.target.value) : "")}
@@ -147,7 +149,7 @@ export default function Edit({ parents, menu }: { parents: Parent[], menu: any }
         <button
           type="submit"
           disabled={processing}
-          className="bg-green-500 cursor-pointer text-white px-4 py-2 rounded"
+          className="bg-green-500 border-green cursor-pointer text-white px-4 py-2 rounded"
         >
           Update Menu
         </button>

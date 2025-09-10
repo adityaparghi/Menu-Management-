@@ -23,6 +23,14 @@ class Menu extends Model
         return $this->hasMany(Menu::class, 'parent_id')->orderBy('sort_number');
     }
 
+//     public function childrenRecursive()
+// {
+//     return $this->hasMany(Menu::class, 'parent_id')
+//         ->with('childrenRecursive') // recursion
+//         ->orderBy('sort_number');
+// }
+
+
     public function childrenRecursive() {
         return $this->children()->with('childrenRecursive');
     }

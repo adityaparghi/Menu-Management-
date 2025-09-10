@@ -9,7 +9,7 @@ interface Parent {
 
 export default function Create({ parents }: { parents: Parent[] }) {
   const [show, setShow] = useState(false);
-
+  console.log("parent:",parents);
   const { data, setData, post, processing, errors } = useForm({
     name: "",
     url: "",
