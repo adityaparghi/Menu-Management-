@@ -68,76 +68,6 @@ import { useState } from "react";
 //   );
 // }
 
-function SortableMenuItem({ id, children }: { id: string; children: React.ReactNode }) {
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    cursor: "grab",
-  };
-
-  return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      {children}
-    </div>
-  );
-}
-
-function RecursiveMenuItem({ item, level = 0 }: { item: NavItem; level?: number }) {
-  const hasChildren = item.items && item.items.length > 0;
-
-  if (hasChildren) {
-    // Parent menu → expandable
-    return (
-      <Collapsible asChild defaultOpen={item.isActive} className="group/collapsible">
-        <SidebarMenuItem>
-          <CollapsibleTrigger asChild>
-            <SidebarMenuButton
-              tooltip={item.title}
-              className={`flex items-center justify-between w-full cursor-pointer 
-                pl-${level * 4} 
-                ${level > 0 ? "text-sm text-muted-foreground hover:text-foreground" : ""}`}
-            >
-              <div className="flex items-center gap-2">
-                {item.icon && <item.icon />}
-                <span>{item.title}</span>
-              </div>
-              <ChevronRight
-                className="ml-auto shrink-0 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"
-              />
-            </SidebarMenuButton>
-          </CollapsibleTrigger>
-
-          <CollapsibleContent>
-            <div className="ml-4 border-l border-muted pl-2 space-y-1">
-              {item.items.map((subItem) => (
-                <RecursiveMenuItem key={subItem.title} item={subItem} level={level + 1} />
-              ))}
-            </div>
-          </CollapsibleContent>
-        </SidebarMenuItem>
-      </Collapsible>
-    );
-  }
-
-  // Leaf menu → clickable link
-  return (
-    <SidebarMenuItem>
-      <SidebarMenuButton asChild>
-        <a
-          href={item.href}
-          className={`flex items-center gap-2 w-full cursor-pointer 
-            pl-${level * 4} 
-            ${level > 0 ? "text-sm text-muted-foreground hover:text-foreground" : ""}`}
-        >
-          {item.icon && <item.icon />}
-          <span>{item.title}</span>
-        </a>
-      </SidebarMenuButton>
-    </SidebarMenuItem>
-  );
-}
 
 // function RecursiveMenuItem({ item, level = 0 }: { item: NavItem; level?: number }) {
 //   const hasChildren = item.items && item.items.length > 0;
@@ -227,7 +157,78 @@ function RecursiveMenuItem({ item, level = 0 }: { item: NavItem; level?: number 
 //     </Collapsible>
 //   );
 // }
- 
+
+
+function SortableMenuItem({ id, children }: { id: string; children: React.ReactNode }) {
+  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    cursor: "grab",
+  };
+
+  return (
+    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+      {children}
+    </div>
+  );
+}
+
+function RecursiveMenuItem({ item, level = 0 }: { item: NavItem; level?: number }) {
+  const hasChildren = item.items && item.items.length > 0;
+
+  if (hasChildren) {
+    // Parent menu → expandable
+    return (
+      <Collapsible asChild defaultOpen={item.isActive} className="group/collapsible">
+        <SidebarMenuItem>
+          <CollapsibleTrigger asChild>
+            <SidebarMenuButton
+              tooltip={item.title}
+              className={`flex items-center justify-between w-full cursor-pointer 
+                pl-${level * 4} 
+                ${level > 0 ? "text-sm text-muted-foreground hover:text-foreground" : ""}`}
+            >
+              <div className="flex items-center gap-2">
+                {item.icon && <item.icon />}
+                <span>{item.title}</span>
+              </div>
+              <ChevronRight
+                className="ml-auto shrink-0 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"
+              />
+            </SidebarMenuButton>
+          </CollapsibleTrigger>
+
+          <CollapsibleContent>
+            <div className="ml-4 border-l border-muted pl-2 space-y-1">
+              {item.items.map((subItem) => (
+                <RecursiveMenuItem key={subItem.title} item={subItem} level={level + 1} />
+              ))}
+            </div>
+          </CollapsibleContent>
+        </SidebarMenuItem>
+      </Collapsible>
+    );
+  }
+
+  // Leaf menu → clickable link
+  return (
+    <SidebarMenuItem>
+      <SidebarMenuButton asChild>
+        <a
+          href={item.href}
+          className={`flex items-center gap-2 w-full cursor-pointer 
+            pl-${level * 4} 
+            ${level > 0 ? "text-sm text-muted-foreground hover:text-foreground" : ""}`}
+        >
+          {item.icon && <item.icon />}
+          <span>{item.title}</span>
+        </a>
+      </SidebarMenuButton>
+    </SidebarMenuItem>
+  );
+}
 
 
 export function NavMain({ items = [] }: { items: NavItem[] }) {
@@ -306,8 +307,6 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
     </SidebarGroup>
   );
 }
-
-
 
 
 // import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem } from '@/components/ui/sidebar';

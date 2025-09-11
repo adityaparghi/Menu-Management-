@@ -11,7 +11,7 @@ class MenuController extends Controller
 {
     public function index()
     {
-        $menus = Menu::with('children') //childrenRecursive
+        $menus = Menu::with('childrenRecursive') //childrenRecursive
             ->whereNull('parent_id')
             ->orderBy('sort_number')
             ->get();
@@ -55,6 +55,7 @@ class MenuController extends Controller
 
         return response()->json(['success' => true]);
     }
+
 
 
     public function move(Request $request, Menu $menu)

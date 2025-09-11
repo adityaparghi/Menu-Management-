@@ -47,13 +47,14 @@ function mapMenusToNavItems(menus: Menu[]): NavItem[] {
     const Icon = (menu.icon && LucideIcons[menu.icon]) || LucideIcons.Folder;
 
     return {
+      id: menu.id,  //Added
       title: menu.name,
-      href: menu.url || "#",   // Redirect to backend URL
-      icon: Icon,              // dynamic icon
+      href: menu.url || "#",  
+      icon: Icon,             
       items: menu.children && menu.children.length > 0 
         ? mapMenusToNavItems(menu.children) 
         : [],
-    };
+    }as any;
   });
  
 
