@@ -7,6 +7,7 @@ interface Parent {
   name: string;
 }
 
+
 export default function Edit({ parents, menu }: { parents: Parent[], menu: any }) {
 
   const [show, setShow] = useState(false);

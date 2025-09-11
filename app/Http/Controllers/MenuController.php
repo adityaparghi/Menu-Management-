@@ -47,14 +47,24 @@ class MenuController extends Controller
 
     public function reorder(Request $request)
     {
-        $order = $request->input('order'); // array of IDs in new order
+        $validated = $request->validate([
+            'id' => 'required|integer|exists:menus,id',
+            'new_parent_id' => 'nullable|integer|exists:menus,id',
+            'new_sort_number' => 'required|integer',
+        ]);
 
-        foreach ($order as $index => $id) {
-            Menu::where('id', $id)->update(['sort_number' => $index + 1]);
+        $menu = Menu::findOrFail($validated['id']);
+        // Prevent invalid moves (self or child)
+        if ($request->new_parent_id && $request->new_parent_id == $menu->id) {
+            return back()->with('error', 'Invalid move');
         }
+        $menu->parent_id = $validated['new_parent_id'];
+        $menu->sort_number = $validated['new_sort_number'];
+        $menu->save();
 
-        return response()->json(['success' => true]);
+        return redirect()->back()->with('success', 'Menu reordered successfully.');
     }
+
 
 
 
