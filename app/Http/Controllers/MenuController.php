@@ -9,6 +9,15 @@ use PhpParser\Node\Stmt\Return_;
 
 class MenuController extends Controller
 {
+
+    public function getall(){
+        $menus = Menu::with('childrenRecursive')
+        ->orderBy('id')  
+        ->paginate('5');
+
+        return response()->json($menus);
+    }
+
     public function index()
     {
         $menus = Menu::with('childrenRecursive') //childrenRecursive
@@ -62,7 +71,7 @@ class MenuController extends Controller
         $menu->sort_number = $validated['new_sort_number'];
         $menu->save();
 
-        return redirect()->back()->with('success', 'Menu reordered successfully.');
+        return redirect()->back()->with('success', 'Menu reordered');
     }
 
 

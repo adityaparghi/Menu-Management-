@@ -18,7 +18,7 @@ import {
   closestCenter,
   PointerSensor,
   useSensor,
-  useSensors,
+  useSensors,  
 } from "@dnd-kit/core";
 import {
   SortableContext,
@@ -159,30 +159,14 @@ import { useState } from "react";
 // }
 
 
-function SortableMenuItem({ id, children }: { id: string; children: React.ReactNode }) {
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    cursor: "grab",
-  };
-
-  return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      {children}
-    </div>
-  );
-}
-
 function RecursiveMenuItem({ item, level = 0 }: { item: NavItem; level?: number }) {
   const hasChildren = item.items && item.items.length > 0;
 
   if (hasChildren) {
-    // Parent menu → expandable
     return (
-      <Collapsible asChild defaultOpen={item.isActive} className="group/collapsible">
+      <Collapsible asChild defaultOpen={item.isActive} >
         <SidebarMenuItem>
+
           <CollapsibleTrigger asChild>
             <SidebarMenuButton
               tooltip={item.title}
@@ -194,9 +178,10 @@ function RecursiveMenuItem({ item, level = 0 }: { item: NavItem; level?: number 
                 {item.icon && <item.icon />}
                 <span>{item.title}</span>
               </div>
+
               <ChevronRight
-                className="ml-auto shrink-0 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"
-              />
+                className="ml-auto shrink-0 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"/>
+
             </SidebarMenuButton>
           </CollapsibleTrigger>
 
@@ -212,7 +197,7 @@ function RecursiveMenuItem({ item, level = 0 }: { item: NavItem; level?: number 
     );
   }
 
-  // Leaf menu → clickable link
+  // Leaf 
   return (
     <SidebarMenuItem>
       <SidebarMenuButton asChild>
@@ -233,77 +218,15 @@ function RecursiveMenuItem({ item, level = 0 }: { item: NavItem; level?: number 
 
 export function NavMain({ items = [] }: { items: NavItem[] }) {
   const page = usePage();
-  const [menuItems, setMenuItems] = useState(items);
-
-  const sensors = useSensors(useSensor(PointerSensor));
-
-  const handleDragEnd = (event: any) => {
-    const { active, over } = event;
-    if (over && active.id !== over.id) {
-      setMenuItems((items) => {
-        const oldIndex = items.findIndex((i) => i.title === active.id);
-        const newIndex = items.findIndex((i) => i.title === over.id);
-        return arrayMove(items, oldIndex, newIndex);
-      });
-    }
-  };
 
   return (
     <SidebarGroup className="px-2 py-0">
       <SidebarGroupLabel>Admin Panel</SidebarGroupLabel>
-
-      {/* <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}> */}
-      <SortableContext items={menuItems.map((i) => i.title)} strategy={verticalListSortingStrategy}>
-        {/* <SidebarMenu>
-            {menuItems.map((item) => (
-              <SortableMenuItem key={item.title} id={item.title}>
-                <Collapsible
-                  key={item.title}
-                  asChild
-                  defaultOpen={item.isActive}
-                  className="group/collapsible"
-                >
-                  <SidebarMenuItem>
-                    <CollapsibleTrigger asChild>
-                      <SidebarMenuButton tooltip={item.title} className="cursor-pointer">
-                        {item.icon && <item.icon />}
-                        <span>{item.title}</span>
-                        <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                      </SidebarMenuButton>
-                    </CollapsibleTrigger>
-
-                    <CollapsibleContent>
-                      <SidebarMenuSub>
-                        {item.items?.map((subItem) => (
-                          <SidebarMenuSubItem key={subItem.title}>
-                            <SidebarMenuSubButton asChild>
-                              <a
-                                href={subItem.href}
-                                className="flex items-center gap-2 hover:underline cursor-pointer"
-                              >
-                                {subItem.icon && <subItem.icon className="w-4 h-4" />}
-                                <span>{subItem.title}</span>
-                              </a>
-                            </SidebarMenuSubButton>
-                          </SidebarMenuSubItem>
-                        ))}
-                      </SidebarMenuSub>
-                    </CollapsibleContent>
-                  </SidebarMenuItem>
-                </Collapsible>
-              </SortableMenuItem>
-            ))}
-          </SidebarMenu> */}
-        <SidebarMenu>
-          {menuItems.map((item) => (
-            <SortableMenuItem key={item.title} id={item.title}>
-              <RecursiveMenuItem item={item} />
-            </SortableMenuItem>
-          ))}
-        </SidebarMenu>
-
-      </SortableContext>
-      {/* </DndContext> */}
+      <SidebarMenu>
+        {items.map((item) => (
+          <RecursiveMenuItem key={item.title} item={item} />
+        ))}
+      </SidebarMenu>
     </SidebarGroup>
   );
 }

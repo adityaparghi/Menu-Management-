@@ -403,7 +403,7 @@
 
 
 
-// resources/js/Pages/Menus/Index.jsx
+
 import React, { useState } from "react";
 import { Link, router, usePage } from "@inertiajs/react";
 import * as LucideIcons from "lucide-react";
@@ -415,9 +415,8 @@ import {
   DropResult,
 } from "@hello-pangea/dnd";
 
-/**
- * 🔎 Helper to find menu by id
- */
+/*
+  Helper to find menu by id */
 const findMenuById = (menus, id) => {
   for (let menu of menus) {
     if (menu.id === id) return menu;
@@ -429,9 +428,6 @@ const findMenuById = (menus, id) => {
   return null;
 };
 
-/**
- * Prevent moving a menu inside itself or one of its children
- */
 const isDescendant = (menus, menuId, targetId) => {
   const menu = findMenuById(menus, menuId);
   if (!menu || !menu.children_recursive) return false;
@@ -445,10 +441,9 @@ const isDescendant = (menus, menuId, targetId) => {
 
 export default function Index() {
   const { menus } = usePage().props;
+ 
 
-  /**
-   * 🔄 Handle Drag End
-   */
+ 
   const handleDragEnd = (result) => {
     const { source, destination, draggableId } = result;
     if (!destination) return;
@@ -463,21 +458,19 @@ export default function Index() {
       return;
     }
 
-    // ✅ Update backend
+  
     router.post(
       "/menus/reorder",
       {
         id: draggedId,
-        new_parent_id: targetId, // null if dropped on root
+        new_parent_id: targetId, 
         new_sort_number: destination.index,
       },
       { preserveScroll: true }
     );
   };
 
-  /**
-   * 🔁 Recursive Renderer
-   */
+
   const renderMenu = (menu, index) => (
     <Draggable draggableId={`menu-${menu.id}`} index={index} key={menu.id}>
       {(provided) => (
@@ -542,8 +535,13 @@ export default function Index() {
 
   return (
     <div className="p-6">
-      <h1 className="text-xl font-bold mb-4">Menu Management</h1>
+    <div className="flex items-center justify-between mb-4">
+        <h1 className="text-xl font-bold mb-4">Menu Management</h1>
 
+      <Link href="/create" className="px-4 py-2 ml-180 bg-black text-white rounded">
+           Create Menu
+      </Link>
+    </div>
       <DragDropContext onDragEnd={handleDragEnd}>
         <Droppable droppableId="root" type="MENU">
           {(provided) => (
