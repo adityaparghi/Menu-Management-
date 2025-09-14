@@ -2,7 +2,7 @@ import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, Sideba
 import { type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@radix-ui/react-collapsible';
-import { ChevronRight, Trash2 } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 
 export function NavMain({ items = [] }: { items: NavItem[] }) {
     const page = usePage();
@@ -31,6 +31,7 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
                                         <SidebarMenuSubItem key={subItem.title}>
                                             <SidebarMenuSubButton asChild>
                                                 <a href={subItem.url}>
+                                                {subItem.icon && <subItem.icon className="h-4 w-4" />}
                                                     <span>{subItem.title}</span>
                                                 </a>
                                             </SidebarMenuSubButton>
