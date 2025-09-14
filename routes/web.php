@@ -17,9 +17,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::middleware('auth')->controller(MenuController::class)->group(function(){
     Route::get('/all','index')->name('all-menu'); 
     Route::get('/create','create')->name('create-menu'); 
-    Route::post('/','save')->name('save-menu');
-    Route::get('/menus/{menu}/edit','edit')->name('edit-menu');  //Dedicated route 
+    Route::post('/','save')->name('save-menu');  
+    Route::get('/menus/{menu}/edit','edit')->name('edit-menu');  
     Route::put('/menus/{menu}','update')->name('update-menu');
+    Route::post('/menus/{menu}/move', 'move')->name('menus-move');
+    Route::get('/menus','getall')->name('get-all');
+    Route::post('/menus/reorder','reorder')->name('menus-reorder');
     Route::delete('/menus/{menu}','destroy')->name('delete-menu');
 });
 

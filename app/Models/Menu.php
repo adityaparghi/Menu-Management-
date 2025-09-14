@@ -13,15 +13,22 @@ class Menu extends Model
         'name', 'url', 'icon', 'parent_id', 'status', 'sort_number',
     ];
 
-    // Parent rel.
     public function parent(){
         return $this->belongsTo(Menu::class, 'parent_id');
     }
 
-    // Children rel.
+
     public function children(){
         return $this->hasMany(Menu::class, 'parent_id')->orderBy('sort_number');
     }
+
+//     public function childrenRecursive()
+// {
+//     return $this->hasMany(Menu::class, 'parent_id')
+//         ->with('childrenRecursive') // recursion
+//         ->orderBy('sort_number');
+// }
+
 
     public function childrenRecursive() {
         return $this->children()->with('childrenRecursive');
